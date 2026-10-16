@@ -1,0 +1,20 @@
+{
+  "name": "dzencode-test-app",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "back-end",
+    "front-end"
+  ],
+  "scripts": {
+    "dev:back": "npm run start:dev --workspace=back-end",
+    "dev:front": "npm run dev --workspace=front-end",
+    "build": "npm run build --workspaces --if-present",
+    "build:back": "npm run build --workspace=back-end",
+    "build:front": "npm run build --workspace=front-end",
+    "start:back": "npm run start:prod --workspace=back-end",
+    "start:front": "npm run start --workspace=front-end",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
+  }
+}
