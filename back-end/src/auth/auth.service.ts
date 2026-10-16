@@ -32,10 +32,6 @@ export class AuthService {
     };
   }
 
-  getProfile(userId: number) {
-    return this.usersService.findOne(userId);
-  }
-
   private signToken(userId: number, email: string): Promise<string> {
     return this.jwtService.signAsync({ sub: userId, email });
   }

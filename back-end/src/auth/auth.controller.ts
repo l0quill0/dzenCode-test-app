@@ -15,8 +15,12 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard.js';
 
 interface AuthenticatedRequest extends Request {
   user: {
-    userId: number;
+    id: number;
     email: string;
+    name: string | null;
+    avatar: string;
+    createdAt: Date;
+    updatedAt: Date;
   };
 }
 
@@ -33,6 +37,6 @@ export class AuthController {
   @Get('me')
   @UseGuards(JwtAuthGuard)
   getProfile(@Req() req: AuthenticatedRequest) {
-    return this.authService.getProfile(req.user.userId);
+    return req.user;
   }
 }

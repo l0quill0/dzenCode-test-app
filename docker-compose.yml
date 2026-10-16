@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: dzencode-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dzencode_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d dzencode_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  back-end:
+    build:
+      context: .
+      dockerfile: back-end/Dockerfile
+    container_name: dzencode-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/dzencode_db?schema=public"
+      JWT_SECRET: "super-secret-jwt-key-change-me"
+      JWT_EXPIRES_IN: "1d"
+      PORT: 3000
+      NODE_PATH: "/app/node_modules:/app/back-end/node_modules"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
