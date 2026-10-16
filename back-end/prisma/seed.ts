@@ -27,6 +27,7 @@ async function main() {
     data: {
       email: 'alex@dzencode.com',
       name: 'Христорождественский Александр',
+      avatar: '',
       password: userPassword,
     },
   });
@@ -114,38 +115,40 @@ async function main() {
       date: new Date('2017-09-06T12:09:33.000Z'),
       price: {
         create: [
-          { value: 0, symbol: 'USD', isDefault: 0 },
-          { value: 50, symbol: 'UAH', isDefault: 1 },
+          { value: 2500, symbol: 'USD', isDefault: 0 },
+          { value: 250000.5, symbol: 'UAH', isDefault: 1 },
         ],
       },
     },
   });
 
-  await prisma.product.create({
-    data: {
-      serialNumber: 'SN-12.3456789',
-      isNew: 1,
-      photo: '',
-      title: 'Gigabyte Technology X58-USB3 (Socket 1366) 6 X58-USB3',
-      type: 'Monitors',
-      specification: 'Specification 1',
-      status: ProductStatus.FREE,
-      statusStart: new Date('2017-04-06T12:09:33.000Z'),
-      statusEnd: null,
-      guaranteeStart: new Date('2017-04-06T12:09:33.000Z'),
-      guaranteeEnd: new Date('2025-08-06T12:09:33.000Z'),
-      orderId: order3.id,
-      groupId: null,
-      userId: user.id,
-      date: new Date('2017-09-06T12:09:33.000Z'),
-      price: {
-        create: [
-          { value: 2500.85, symbol: 'USD', isDefault: 0 },
-          { value: 50.25, symbol: 'UAH', isDefault: 1 },
-        ],
+  for (let i = 0; i < 6; i++) {
+    await prisma.product.create({
+      data: {
+        serialNumber: 'SN-12.3456789',
+        isNew: 1,
+        photo: '',
+        title: 'Gigabyte Technology X58-USB3 (Socket 1366) 6 X58-USB3',
+        type: 'Monitors',
+        specification: 'Specification 1',
+        status: ProductStatus.FREE,
+        statusStart: new Date('2017-04-06T12:09:33.000Z'),
+        statusEnd: null,
+        guaranteeStart: new Date('2017-04-06T12:09:33.000Z'),
+        guaranteeEnd: new Date('2025-08-06T12:09:33.000Z'),
+        orderId: order3.id,
+        groupId: null,
+        userId: user.id,
+        date: new Date('2017-09-06T12:09:33.000Z'),
+        price: {
+          create: [
+            { value: 2500, symbol: 'USD', isDefault: 0 },
+            { value: 250000.5, symbol: 'UAH', isDefault: 1 },
+          ],
+        },
       },
-    },
-  });
+    });
+  }
 
   await prisma.product.create({
     data: {
@@ -166,8 +169,8 @@ async function main() {
       date: new Date('2017-09-06T12:09:33.000Z'),
       price: {
         create: [
-          { value: 0, symbol: 'USD', isDefault: 0 },
-          { value: 50.25, symbol: 'UAH', isDefault: 1 },
+          { value: 2500, symbol: 'USD', isDefault: 0 },
+          { value: 250000.5, symbol: 'UAH', isDefault: 1 },
         ],
       },
     },
