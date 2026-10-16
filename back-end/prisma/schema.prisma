@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ProductStatus {
+  FREE
+  IN_REPAIR
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  name      String?
+  password  String
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Order {
+  id          Int       @id @default(autoincrement())
+  title       String
+  date        DateTime  @default(now())
+  description String
+  products    Product[]
+}
+
+model Group {
+  id       Int       @id @default(autoincrement())
+  name     String
+  products Product[]
+}
+
+model Product {
+  id             Int           @id @default(autoincrement())
+  serialNumber   String
+  isNew          Int           @default(1)
+  photo          String
+  title          String
+  type           String
+  specification  String
+  status         ProductStatus @default(FREE)
+  statusStart    DateTime      @default(now())
+  statusEnd      DateTime?
+  guaranteeStart DateTime
+  guaranteeEnd   DateTime
+  price          Price[]
+  orderId        Int           @map("order")
+  order          Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  groupId        Int?
+  group          Group?        @relation(fields: [groupId], references: [id], onDelete: SetNull)
+  userId         Int?
+  user           User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  date           DateTime      @default(now())
+}
+
+model Price {
+  id        Int     @id @default(autoincrement())
+  value     Float
+  symbol    String
+  isDefault Int     @default(0)
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
