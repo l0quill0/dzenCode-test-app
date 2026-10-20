@@ -1,4 +1,3 @@
-import React from 'react';
 import { PageLayout } from '@/components/layout/page-layout';
 import { LanguageSwitcher } from '@/components/settings/language-switcher';
 import { AccountSettings } from '@/components/settings/account-settings';

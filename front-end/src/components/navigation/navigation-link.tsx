@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -18,11 +17,11 @@ export function NavigationLink({ href, label, isActive }: NavigationLinkProps) {
   return (
     <Link
       href={href}
-      className="group relative pb-[6px] text-center text-[13px] font-bold tracking-[0.04em] text-[#2c3c44] uppercase transition-colors hover:text-[#1b252a]"
+      className="group relative pb-[6px] text-center text-[13px] font-bold tracking-[0.04em] text-ink uppercase transition-colors hover:text-ink-strong"
     >
       <span>{label}</span>
       {active && (
-        <span className="absolute right-0 bottom-0 left-0 h-[3px] bg-[#8bc34a]" />
+        <span className="absolute right-0 bottom-0 left-0 h-[3px] bg-brand" />
       )}
     </Link>
   );

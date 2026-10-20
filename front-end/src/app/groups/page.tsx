@@ -1,4 +1,3 @@
-import React from 'react';
 import { PageLayout } from '@/components/layout/page-layout';
 import { getServerI18n } from '@/i18n/server';
 

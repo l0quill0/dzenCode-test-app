@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, type ReactNode, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -36,7 +36,7 @@ const I18nContext = createContext<I18nContextValue | undefined>(undefined);
 
 interface I18nProviderProps {
   initialLocale?: Locale;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export function I18nProvider({

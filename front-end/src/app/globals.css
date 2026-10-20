@@ -1,9 +1,32 @@
 @import "tailwindcss";
 @import "animate.css";
 
+@theme {
+  --color-ink: #2c3c44;
+  --color-ink-strong: #1b252a;
+  --color-ink-soft: #546e7a;
+  --color-ink-muted: #78909c;
+  --color-ink-faint: #90a4ae;
+
+  --color-line: #cfd8dc;
+  --color-line-soft: #eceff1;
+
+  --color-surface: #f0f3f5;
+  --color-surface-soft: #f8fafb;
+
+  --color-brand: #8bc34a;
+  --color-brand-strong: #7cb342;
+  --color-brand-soft: #e8f5e9;
+
+  --color-danger: #e53935;
+  --color-danger-strong: #d32f2f;
+  --color-danger-soft: #ffebee;
+  --color-danger-line: #ffcdd2;
+}
+
 :root {
-  --background: #f0f3f5;
-  --foreground: #2c3c44;
+  --background: var(--color-surface);
+  --foreground: var(--color-ink);
 }
 
 body {

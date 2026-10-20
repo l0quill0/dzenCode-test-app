@@ -1,11 +1,11 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 
 export interface PageLayoutProps {
-  header: React.ReactNode;
-  leadingAction?: React.ReactNode;
-  headerExtras?: React.ReactNode;
+  header: ReactNode;
+  leadingAction?: ReactNode;
+  headerExtras?: ReactNode;
   className?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 export function PageLayout({
@@ -16,10 +16,10 @@ export function PageLayout({
   children,
 }: PageLayoutProps) {
   return (
-    <div className={className}>
-      <div className="mb-10 flex flex-wrap items-center gap-[18px]">
+    <div className={`flex min-h-0 flex-1 flex-col ${className}`.trim()}>
+      <div className="mb-7 flex shrink-0 flex-wrap items-center gap-[18px]">
         {leadingAction}
-        <h1 className="text-[26px] font-bold tracking-tight text-[#2c3c44]">
+        <h1 className="text-[26px] font-bold tracking-tight text-ink">
           {header}
         </h1>
         {headerExtras}

@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import { type InputHTMLAttributes, useState } from 'react';
 import type { AnyFieldApi } from '@tanstack/react-form';
 import { Eye, EyeOff } from 'lucide-react';
+import { Button } from '@/components/common/button';
 import { ErrorMessage } from '@/components/common/error-message';
 
 export interface TextInputProps
   extends Omit<
-    React.InputHTMLAttributes<HTMLInputElement>,
+    InputHTMLAttributes<HTMLInputElement>,
     'name' | 'value' | 'onChange' | 'onBlur'
   > {
   label?: string;
@@ -49,7 +50,7 @@ export function TextInput({
       {label && (
         <label
           htmlFor={inputId}
-          className="text-[12px] font-semibold text-[#546e7a]"
+          className="text-[12px] font-semibold text-ink-soft"
         >
           {label}
         </label>
@@ -62,21 +63,23 @@ export function TextInput({
           value={field.state.value ?? ''}
           onBlur={field.handleBlur}
           onChange={(e) => field.handleChange(e.target.value)}
-          className={`h-10 w-full rounded border bg-[#f8fafb] px-3 text-[14px] text-[#2c3c44] transition-colors outline-none focus:bg-white ${
+          className={`h-10 w-full rounded border bg-surface-soft px-3 text-[14px] text-ink transition-colors outline-none focus:bg-white ${
             isPasswordField ? 'pr-10' : ''
           } ${
             error
-              ? 'border-[#e53935] focus:border-[#e53935]'
-              : 'border-[#cfd8dc] focus:border-[#8bc34a]'
+              ? 'border-danger focus:border-danger'
+              : 'border-line focus:border-brand'
           } ${className}`.trim()}
           {...props}
         />
         {isPasswordField && (
-          <button
-            type="button"
+          <Button
+            variant="icon"
+            shape="circle"
+            size="icon-xs"
             tabIndex={-1}
             onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute right-2.5 flex cursor-pointer items-center justify-center text-[#78909c] transition-colors hover:text-[#2c3c44]"
+            className="absolute right-1.5"
             aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
             {showPassword ? (
@@ -84,7 +87,7 @@ export function TextInput({
             ) : (
               <Eye className="h-4 w-4" />
             )}
-          </button>
+          </Button>
         )}
       </div>
       <ErrorMessage variant="inline" message={error} />

@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Clock } from 'lucide-react';
+import { Button } from '@/components/common/button';
 import { useI18n } from '@/contexts/i18n-context';
 import { useAppSelector } from '@/store/hooks';
 
@@ -46,13 +48,14 @@ export function TopMenu({ searchQuery = '', onSearchChange }: TopMenuProps) {
 
   return (
     <header className="sticky top-0 z-30 flex h-[74px] w-full items-center justify-between bg-white pr-[90px] pl-[195px] shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
-      {/* Left: Brand Logo + Search Input */}
       <div className="flex items-center gap-[102px]">
         <Link href="/orders" className="flex shrink-0 items-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/logo.png"
             alt={t.appTitle}
+            width={155}
+            height={48}
+            priority
             className="h-[46px] w-auto object-contain select-none"
           />
         </Link>
@@ -63,34 +66,33 @@ export function TopMenu({ searchQuery = '', onSearchChange }: TopMenuProps) {
             value={searchQuery}
             onChange={(e) => onSearchChange?.(e.target.value)}
             placeholder={t.searchPlaceholder}
-            className="h-[30px] w-full rounded-[4px] border border-[#cfd8dc] bg-[#f0f3f5] px-3.5 text-[13px] font-semibold text-[#2c3c44] shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)] placeholder:font-bold placeholder:text-[#2c3c44] focus:border-[#90a4ae] focus:bg-white focus:outline-none"
+            className="h-[30px] w-full rounded-[4px] border border-line bg-surface px-3.5 text-[13px] font-semibold text-ink shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)] placeholder:font-bold placeholder:text-ink focus:border-ink-faint focus:bg-white focus:outline-none"
           />
         </div>
       </div>
 
-      {/* Right: Real-time Date/Time + Active Sessions Counter + Language Toggle */}
       <div className="flex items-center gap-6">
-        <div className="flex flex-col items-start text-[12px] leading-tight text-[#2c3c44]">
-          <span className="mb-1 text-[13px] font-normal text-[#2c3c44]">
+        <div className="flex flex-col items-start text-[12px] leading-tight text-ink">
+          <span className="mb-1 text-[13px] font-normal text-ink">
             {dayName}
           </span>
           <div className="flex items-center gap-4">
-            <span className="text-[13px] font-bold text-[#2c3c44]">
+            <span className="text-[13px] font-bold text-ink">
               {formattedDate}
             </span>
-            <div className="flex items-center gap-1.5 text-[13px] font-normal text-[#2c3c44]">
-              <Clock className="h-[15px] w-[15px] text-[#8bc34a]" strokeWidth={2.2} />
+            <div className="flex items-center gap-1.5 text-[13px] font-normal text-ink">
+              <Clock className="h-[15px] w-[15px] text-brand" strokeWidth={2.2} />
               <span>{formattedTime}</span>
             </div>
             <div
-              className="ml-2 flex items-center gap-1.5 text-[12px] text-[#546e7a]"
+              className="ml-2 flex items-center gap-1.5 text-[12px] text-ink-soft"
               title={getSessionsLabel(activeSessions)}
             >
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8bc34a] opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#8bc34a]" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
               </span>
-              <span className="font-bold text-[#2c3c44]">{activeSessions}</span>
+              <span className="font-bold text-ink">{activeSessions}</span>
               <span className="hidden xl:inline">
                 {getSessionsLabel(activeSessions)}
               </span>
@@ -99,32 +101,28 @@ export function TopMenu({ searchQuery = '', onSearchChange }: TopMenuProps) {
         </div>
 
         <div
-          className="flex overflow-hidden rounded border border-[#cfd8dc] bg-[#f8fafb]"
+          className="flex overflow-hidden rounded border border-line bg-surface-soft"
           role="group"
           aria-label={t.settings.languageLabel}
         >
-          <button
-            type="button"
+          <Button
+            variant={locale === 'ru' ? 'primary' : 'subtle'}
+            shape="none"
+            size="xs"
             onClick={() => setLocale('ru')}
-            className={`cursor-pointer px-2.5 py-1 text-[11px] font-bold tracking-wider uppercase transition-colors ${
-              locale === 'ru'
-                ? 'bg-[#8bc34a] text-white'
-                : 'text-[#546e7a] hover:bg-[#eceff1] hover:text-[#2c3c44]'
-            }`}
+            className="shadow-none"
           >
             RU
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
+            variant={locale === 'en' ? 'primary' : 'subtle'}
+            shape="none"
+            size="xs"
             onClick={() => setLocale('en')}
-            className={`cursor-pointer border-l border-[#cfd8dc] px-2.5 py-1 text-[11px] font-bold tracking-wider uppercase transition-colors ${
-              locale === 'en'
-                ? 'bg-[#8bc34a] text-white'
-                : 'text-[#546e7a] hover:bg-[#eceff1] hover:text-[#2c3c44]'
-            }`}
+            className="border-l border-line shadow-none"
           >
             EN
-          </button>
+          </Button>
         </div>
       </div>
     </header>

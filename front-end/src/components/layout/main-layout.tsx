@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, type ReactNode, useContext, useState } from 'react';
 import { TopMenu } from '@/components/navigation/top-menu';
 import { NavigationMenu } from '@/components/navigation/navigation-menu';
 import { LoginForm } from '@/components/auth/login-form';
@@ -25,20 +25,20 @@ export function useSearch() {
 
 interface MainLayoutProps {
   initialLocale?: Locale;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-function AuthenticatedShell({ children }: { children: React.ReactNode }) {
+function AuthenticatedShell({ children }: { children: ReactNode }) {
   const { user, token, isLoading } = useAppSelector((state) => state.auth);
   const isAuthenticated = Boolean(token && user);
   const [searchQuery, setSearchQuery] = useState('');
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen flex-col bg-[#f0f3f5]">
+      <div className="flex min-h-screen flex-col bg-surface">
         <TopMenu searchQuery={searchQuery} onSearchChange={setSearchQuery} />
         <div className="flex flex-1 items-center justify-center">
-          <div className="h-9 w-9 animate-spin rounded-full border-4 border-[#cfd8dc] border-t-[#8bc34a]" />
+          <div className="h-9 w-9 animate-spin rounded-full border-4 border-line border-t-brand" />
         </div>
       </div>
     );
@@ -46,7 +46,7 @@ function AuthenticatedShell({ children }: { children: React.ReactNode }) {
 
   if (!isAuthenticated) {
     return (
-      <div className="flex min-h-screen flex-col bg-[#f0f3f5]">
+      <div className="flex min-h-screen flex-col bg-surface">
         <TopMenu searchQuery={searchQuery} onSearchChange={setSearchQuery} />
         <LoginForm />
       </div>
@@ -55,11 +55,11 @@ function AuthenticatedShell({ children }: { children: React.ReactNode }) {
 
   return (
     <SearchContext.Provider value={{ searchQuery, setSearchQuery }}>
-      <div className="flex min-h-screen flex-col bg-[#f0f3f5]">
+      <div className="flex h-screen flex-col overflow-hidden bg-surface">
         <TopMenu searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-        <div className="flex flex-1">
+        <div className="flex min-h-0 flex-1 overflow-hidden">
           <NavigationMenu />
-          <main className="relative flex-1 overflow-x-hidden pt-[65px] pr-[90px] pb-16 pl-[105px]">
+          <main className="relative flex min-h-0 flex-1 flex-col overflow-hidden pt-[48px] pr-[90px] pb-8 pl-[105px]">
             {children}
           </main>
         </div>

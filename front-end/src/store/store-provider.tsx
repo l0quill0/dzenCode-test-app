@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
 import { io, type Socket } from 'socket.io-client';
 import { store } from '@/store';
@@ -9,7 +10,19 @@ import { setActiveSessions, setConnected } from '@/store/slices/socket-slice';
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_WS_URL || 'http://localhost:3000';
 
-export function StoreProvider({ children }: { children: React.ReactNode }) {
+export function StoreProvider({ children }: { children: ReactNode }) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 30 * 1000,
+            refetchOnWindowFocus: false,
+          },
+        },
+      }),
+  );
+
   useEffect(() => {
     void store.dispatch(initializeAuth());
 
@@ -37,5 +50,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  return <Provider store={store}>{children}</Provider>;
+  return (
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </Provider>
+  );
 }

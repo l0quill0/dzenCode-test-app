@@ -47,15 +47,15 @@ export function LoginForm() {
 
   return (
     <div className="flex flex-1 items-center justify-center p-6">
-      <div className="animate__animated animate__fadeIn w-full max-w-[420px] rounded-lg border border-[#cfd8dc] bg-white p-8 shadow-md">
+      <div className="animate__animated animate__fadeIn w-full max-w-[420px] rounded-lg border border-line bg-white p-8 shadow-md">
         <div className="mb-6 flex flex-col items-center gap-2 text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e8f5e9] text-[#8bc34a]">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-soft text-brand">
             <Shield className="h-6 w-6" />
           </div>
-          <h1 className="text-[20px] font-bold text-[#2c3c44]">
+          <h1 className="text-[20px] font-bold text-ink">
             {t.auth.signIn}
           </h1>
-          <p className="text-[12px] text-[#78909c]">{t.auth.demoHint}</p>
+          <p className="text-[12px] text-ink-muted">{t.auth.demoHint}</p>
         </div>
 
         <form

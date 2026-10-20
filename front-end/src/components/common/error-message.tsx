@@ -1,8 +1,8 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 
 export interface ErrorMessageProps {
   message?: string | null;
-  children?: React.ReactNode;
+  children?: ReactNode;
   variant?: 'box' | 'inline';
   className?: string;
 }
@@ -20,7 +20,7 @@ export function ErrorMessage({
     return (
       <span
         role="alert"
-        className={`text-[12px] text-[#e53935] ${className}`.trim()}
+        className={`text-[12px] text-danger ${className}`.trim()}
       >
         {content}
       </span>
@@ -30,7 +30,7 @@ export function ErrorMessage({
   return (
     <div
       role="alert"
-      className={`rounded border border-[#ffcdd2] bg-[#ffebee] px-3 py-2 text-[13px] font-medium text-[#d32f2f] ${className}`.trim()}
+      className={`rounded border border-danger-line bg-danger-soft px-3 py-2 text-[13px] font-medium text-danger-strong ${className}`.trim()}
     >
       {content}
     </div>

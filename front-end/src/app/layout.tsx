@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   const { locale } = await getServerI18n();
 
@@ -31,7 +32,7 @@ export default async function RootLayout({
       lang={locale}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-[#f0f3f5] text-[#2c3c44]">
+      <body className="flex min-h-full flex-col bg-surface text-ink">
         <MainLayout initialLocale={locale}>{children}</MainLayout>
       </body>
     </html>
