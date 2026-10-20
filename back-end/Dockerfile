@@ -9,8 +9,8 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 COPY back-end/package.json ./back-end/package.json
 
-# Install all workspace dependencies
-RUN npm ci
+# Install back-end workspace dependencies
+RUN npm ci --workspace=back-end --include-workspace-root
 
 # Copy back-end source files (without overwriting back-end/node_modules)
 COPY back-end/prisma ./back-end/prisma

@@ -35,5 +35,20 @@ services:
       postgres:
         condition: service_healthy
 
+  front-end:
+    build:
+      context: .
+      dockerfile: front-end/Dockerfile
+    container_name: dzencode-frontend
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      NEXT_PUBLIC_API_URL: "http://localhost:3000"
+      NEXT_PUBLIC_WS_URL: "http://localhost:3000"
+    depends_on:
+      - back-end
+
 volumes:
   postgres_data:
