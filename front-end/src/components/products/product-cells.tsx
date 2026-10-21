@@ -37,13 +37,15 @@ export function ProductDeleteActionCell({ product }: { product: Product }) {
         onCancel={() => setIsOpen(false)}
         onConfirm={handleConfirmDelete}
       >
-        <DotCell active={product.status === 'FREE'} />
-        <IconCell icon={Monitor} />
-        <StackedCell
-          primary={product.title}
-          secondary={product.serialNumber}
-          underline
-        />
+        <div className="flex items-center gap-5">
+          <DotCell active={product.status === 'FREE'} />
+          <IconCell icon={Monitor} />
+          <StackedCell
+            primary={product.title}
+            secondary={product.serialNumber}
+            underline
+          />
+        </div>
       </DeleteModal>
     </>
   );

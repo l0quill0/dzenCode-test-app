@@ -27,6 +27,7 @@ export function useDeleteProductMutation() {
     mutationFn: (id: number) => api.products.delete(id),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['products'] });
+      await queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
   });
 }

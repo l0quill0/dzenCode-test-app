@@ -49,7 +49,7 @@ export function DeleteModal({
         <div className="px-8 pt-7 pb-5">
           <h2 className="text-[18px] font-bold text-ink">{title}</h2>
           {children && (
-            <div className="mt-5 flex items-center gap-5 border-t border-line-soft pt-4">
+            <div className="mt-5 max-h-[320px] overflow-y-auto border-t border-line-soft pt-4 pr-1">
               {children}
             </div>
           )}

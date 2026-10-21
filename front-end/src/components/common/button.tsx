@@ -9,7 +9,8 @@ export type ButtonVariant =
   | 'ghost'
   | 'ghost-danger'
   | 'subtle'
-  | 'icon';
+  | 'icon'
+  | 'link';
 
 export type ButtonShape = 'pill' | 'circle' | 'rounded' | 'none';
 
@@ -20,7 +21,8 @@ export type ButtonSize =
   | 'lg'
   | 'icon-xs'
   | 'icon-sm'
-  | 'icon-md';
+  | 'icon-md'
+  | 'auto';
 
 export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -42,6 +44,7 @@ const variantClasses: Record<ButtonVariant, string> = {
     'bg-transparent text-ink-faint hover:bg-danger-soft hover:text-danger',
   subtle: 'bg-transparent text-ink-soft hover:bg-line-soft hover:text-ink',
   icon: 'bg-transparent text-ink-muted hover:text-ink',
+  link: 'bg-transparent text-brand hover:underline',
 };
 
 const shapeClasses: Record<ButtonShape, string> = {
@@ -59,6 +62,7 @@ const sizeClasses: Record<ButtonSize, string> = {
   'icon-xs': 'h-7 w-7',
   'icon-sm': 'h-8 w-8',
   'icon-md': 'h-9 w-9',
+  auto: 'h-auto p-0',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(

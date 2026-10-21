@@ -1,4 +1,4 @@
-import type { Price } from '@/types';
+import type { Price, Product } from '@/types';
 
 export function formatShortDate(dateStr: string): string {
   const date = new Date(dateStr);
@@ -37,8 +37,59 @@ export function formatPriceValue(value: number, symbol: string): string {
   return `${numberStr} ${displaySymbol}`;
 }
 
-export function formatPrice(price: Price | null): string | undefined {
+export function formatPrice(
+  price: { value: number; symbol: string } | null | undefined,
+): string | undefined {
   return price ? formatPriceValue(price.value, price.symbol) : undefined;
+}
+
+export function getOrderTotalPrices(products: Product[] = []): {
+  defaultPrice: { value: number; symbol: string } | null;
+  secondaryPrice: { value: number; symbol: string } | null;
+} {
+  let defaultSum = 0;
+  let secondarySum = 0;
+  let defaultSymbol = '';
+  let secondarySymbol = '';
+  let hasDefault = false;
+  let hasSecondary = false;
+
+  for (const product of products) {
+    if (!product.price || product.price.length === 0) continue;
+    const { defaultPrice, secondaryPrice } = getSortedPrices(product.price);
+    if (defaultPrice) {
+      defaultSum += defaultPrice.value;
+      defaultSymbol = defaultPrice.symbol;
+      hasDefault = true;
+    }
+    if (secondaryPrice) {
+      secondarySum += secondaryPrice.value;
+      secondarySymbol = secondaryPrice.symbol;
+      hasSecondary = true;
+    }
+  }
+
+  return {
+    defaultPrice: hasDefault ? { value: defaultSum, symbol: defaultSymbol } : null,
+    secondaryPrice:
+      hasSecondary &&
+      (secondarySum !== defaultSum || secondarySymbol !== defaultSymbol)
+        ? { value: secondarySum, symbol: secondarySymbol }
+        : null,
+  };
+}
+
+export function getProductsCountLabel(
+  count: number,
+  labels: { one: string; few: string; many: string },
+): string {
+  const mod10 = count % 10;
+  const mod100 = count % 100;
+  if (mod10 === 1 && mod100 !== 11) return labels.one;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) {
+    return labels.few;
+  }
+  return labels.many;
 }
 
 export function getSortedPrices(prices: Price[] = []): {
