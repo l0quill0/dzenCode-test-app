@@ -1,9 +1,11 @@
 'use client';
 
 import { createContext, type ReactNode, useContext, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { TopMenu } from '@/components/navigation/top-menu';
 import { NavigationMenu } from '@/components/navigation/navigation-menu';
 import { LoginForm } from '@/components/auth/login-form';
+import { ServiceWorkerRegister } from '@/components/pwa/service-worker-register';
 import { I18nProvider } from '@/contexts/i18n-context';
 import { useAppSelector } from '@/store/hooks';
 import { StoreProvider } from '@/store/store-provider';
@@ -32,6 +34,14 @@ function AuthenticatedShell({ children }: { children: ReactNode }) {
   const { user, token, isLoading } = useAppSelector((state) => state.auth);
   const isAuthenticated = Boolean(token && user);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const [prevPathname, setPrevPathname] = useState(pathname);
+
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    setIsMobileMenuOpen(false);
+  }
 
   if (isLoading) {
     return (
@@ -56,10 +66,17 @@ function AuthenticatedShell({ children }: { children: ReactNode }) {
   return (
     <SearchContext.Provider value={{ searchQuery, setSearchQuery }}>
       <div className="flex h-screen flex-col overflow-hidden bg-surface">
-        <TopMenu searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+        <TopMenu
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          onMenuToggle={() => setIsMobileMenuOpen((prev) => !prev)}
+        />
         <div className="flex min-h-0 flex-1 overflow-hidden">
-          <NavigationMenu />
-          <main className="relative flex min-h-0 flex-1 flex-col overflow-hidden pt-[48px] pr-[90px] pb-8 pl-[105px]">
+          <NavigationMenu
+            isOpen={isMobileMenuOpen}
+            onClose={() => setIsMobileMenuOpen(false)}
+          />
+          <main className="relative flex min-h-0 flex-1 flex-col overflow-y-auto p-4 sm:p-6 lg:pt-[48px] lg:pr-[90px] lg:pb-8 lg:pl-[105px]">
             {children}
           </main>
         </div>
@@ -75,6 +92,7 @@ export function MainLayout({
   return (
     <StoreProvider>
       <I18nProvider initialLocale={initialLocale}>
+        <ServiceWorkerRegister />
         <AuthenticatedShell>{children}</AuthenticatedShell>
       </I18nProvider>
     </StoreProvider>

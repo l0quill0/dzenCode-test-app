@@ -46,8 +46,8 @@ export function DeleteModal({
           <X className="h-4 w-4" strokeWidth={2.5} />
         </Button>
 
-        <div className="px-8 pt-7 pb-5">
-          <h2 className="text-[18px] font-bold text-ink">{title}</h2>
+        <div className="px-5 sm:px-8 pt-6 sm:pt-7 pb-5">
+          <h2 className="text-[17px] sm:text-[18px] font-bold text-ink">{title}</h2>
           {children && (
             <div className="mt-5 max-h-[320px] overflow-y-auto border-t border-line-soft pt-4 pr-1">
               {children}
@@ -55,7 +55,7 @@ export function DeleteModal({
           )}
         </div>
 
-        <div className="flex items-center justify-end gap-4 rounded-b-[4px] bg-brand px-8 py-5">
+        <div className="flex items-center justify-end gap-3 sm:gap-4 rounded-b-[4px] bg-brand px-5 sm:px-8 py-4 sm:py-5">
           <Button variant="ghost" onClick={onCancel} disabled={isDeleting}>
             {t.actions.cancel}
           </Button>

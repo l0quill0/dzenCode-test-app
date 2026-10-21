@@ -36,17 +36,17 @@ export function useOrdersColumns({
         columnHelper.accessor('title', {
           cell: ({ row }) => (
             <Button
-              variant="link"
+              variant="plain"
               shape="none"
               size="auto"
               onClick={() => onSelectOrder?.(row.original)}
-              className="text-left font-normal text-inherit hover:no-underline"
+              className="group cursor-pointer text-left font-normal"
             >
               <TextCell
                 value={row.original.title}
                 underline
                 wrap
-                className="max-w-[440px] min-w-[280px] hover:text-ink-strong"
+                className="max-w-[440px] min-w-[280px] transition-colors group-hover:text-ink-strong group-hover:decoration-ink-strong hover:text-ink-strong hover:decoration-ink-strong"
               />
             </Button>
           ),

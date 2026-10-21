@@ -3,17 +3,22 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Clock } from 'lucide-react';
+import { Clock, Menu } from 'lucide-react';
 import { Button } from '@/components/common/button';
 import { useI18n } from '@/contexts/i18n-context';
 import { useAppSelector } from '@/store/hooks';
 
-interface TopMenuProps {
+export interface TopMenuProps {
   searchQuery?: string;
   onSearchChange?: (value: string) => void;
+  onMenuToggle?: () => void;
 }
 
-export function TopMenu({ searchQuery = '', onSearchChange }: TopMenuProps) {
+export function TopMenu({
+  searchQuery = '',
+  onSearchChange,
+  onMenuToggle,
+}: TopMenuProps) {
   const { locale, setLocale, t } = useI18n();
   const activeSessions = useAppSelector((state) => state.socket.activeSessions);
   const [now, setNow] = useState<Date | null>(null);
@@ -47,8 +52,21 @@ export function TopMenu({ searchQuery = '', onSearchChange }: TopMenuProps) {
     : '11:25';
 
   return (
-    <header className="sticky top-0 z-30 flex h-[74px] w-full items-center justify-between bg-white pr-[90px] pl-[195px] shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
-      <div className="flex items-center gap-[102px]">
+    <header className="sticky top-0 z-30 flex h-[74px] w-full items-center justify-between bg-white px-4 sm:px-6 lg:pr-[90px] lg:pl-[195px] shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
+      <div className="flex min-w-0 items-center gap-3 sm:gap-4 md:gap-6 xl:gap-[102px]">
+        {onMenuToggle && (
+          <Button
+            variant="subtle"
+            shape="rounded"
+            size="icon-sm"
+            onClick={onMenuToggle}
+            aria-label="Toggle navigation"
+            className="lg:hidden shrink-0 text-ink-muted hover:text-ink"
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+        )}
+
         <Link href="/orders" className="flex shrink-0 items-center">
           <Image
             src="/logo.png"
@@ -56,39 +74,39 @@ export function TopMenu({ searchQuery = '', onSearchChange }: TopMenuProps) {
             width={155}
             height={48}
             priority
-            className="h-[46px] w-auto object-contain select-none"
+            className="h-[38px] sm:h-[46px] w-auto object-contain select-none"
           />
         </Link>
 
-        <div className="w-[412px]">
+        <div className="w-[120px] sm:w-[180px] md:w-[240px] lg:w-[280px] xl:w-[412px] shrink">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange?.(e.target.value)}
             placeholder={t.searchPlaceholder}
-            className="h-[30px] w-full rounded-[4px] border border-line bg-surface px-3.5 text-[13px] font-semibold text-ink shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)] placeholder:font-bold placeholder:text-ink focus:border-ink-faint focus:bg-white focus:outline-none"
+            className="h-[30px] w-full rounded-[4px] border border-line bg-surface px-3 text-[12px] sm:text-[13px] font-semibold text-ink shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)] placeholder:font-bold placeholder:text-ink focus:border-ink-faint focus:bg-white focus:outline-none"
           />
         </div>
       </div>
 
-      <div className="flex items-center gap-6">
-        <div className="flex flex-col items-start text-[12px] leading-tight text-ink">
-          <span className="mb-1 text-[13px] font-normal text-ink">
+      <div className="flex shrink-0 items-center gap-3 sm:gap-6">
+        <div className="flex flex-col items-start text-left shrink-0">
+          <span className="text-[12px] sm:text-[13px] font-normal text-ink leading-tight">
             {dayName}
           </span>
-          <div className="flex items-center gap-4">
-            <span className="text-[13px] font-bold text-ink">
+          <div className="flex items-center gap-2 sm:gap-3.5 leading-tight whitespace-nowrap">
+            <span className="text-[12px] sm:text-[13px] font-bold text-ink">
               {formattedDate}
             </span>
-            <div className="flex items-center gap-1.5 text-[13px] font-normal text-ink">
-              <Clock className="h-[15px] w-[15px] text-brand" strokeWidth={2.2} />
+            <div className="flex items-center gap-1 sm:gap-1.5 text-[12px] sm:text-[13px] font-normal text-ink">
+              <Clock className="h-[14px] w-[14px] sm:h-[15px] sm:w-[15px] text-brand shrink-0" strokeWidth={2.2} />
               <span>{formattedTime}</span>
             </div>
             <div
-              className="ml-2 flex items-center gap-1.5 text-[12px] text-ink-soft"
+              className="ml-1 sm:ml-2 flex items-center gap-1.5 text-[11px] sm:text-[12px] text-ink-soft"
               title={getSessionsLabel(activeSessions)}
             >
-              <span className="relative flex h-2 w-2">
+              <span className="relative flex h-2 w-2 shrink-0">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
               </span>

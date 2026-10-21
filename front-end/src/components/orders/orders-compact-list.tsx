@@ -25,7 +25,7 @@ export function OrdersCompactList({
   const { t } = useI18n();
 
   return (
-    <div className="flex w-[380px] shrink-0 flex-col gap-2.5 overflow-y-auto pb-4">
+    <div className="flex w-full md:w-[380px] shrink-0 flex-col gap-2.5 overflow-y-auto pb-4">
       {orders.map((order) => {
         const isSelected = order.id === selectedOrderId;
         const count = order.products?.length ?? 0;
@@ -50,7 +50,12 @@ export function OrdersCompactList({
             className="group relative flex cursor-pointer items-center rounded-[4px] border border-line bg-white py-3 pr-10 pl-5 transition-shadow hover:shadow-md focus:outline-none"
           >
             <div className="flex items-center gap-5">
-              <OrderListIconButton onClick={() => onSelectOrder(order)} />
+              <OrderListIconButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSelectOrder(order);
+                }}
+              />
               <div className="w-[80px] shrink-0">
                 <StackedCell primary={count} secondary={label} />
               </div>

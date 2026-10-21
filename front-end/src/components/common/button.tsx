@@ -10,7 +10,8 @@ export type ButtonVariant =
   | 'ghost-danger'
   | 'subtle'
   | 'icon'
-  | 'link';
+  | 'link'
+  | 'plain';
 
 export type ButtonShape = 'pill' | 'circle' | 'rounded' | 'none';
 
@@ -45,6 +46,7 @@ const variantClasses: Record<ButtonVariant, string> = {
   subtle: 'bg-transparent text-ink-soft hover:bg-line-soft hover:text-ink',
   icon: 'bg-transparent text-ink-muted hover:text-ink',
   link: 'bg-transparent text-brand hover:underline',
+  plain: 'bg-transparent text-inherit',
 };
 
 const shapeClasses: Record<ButtonShape, string> = {

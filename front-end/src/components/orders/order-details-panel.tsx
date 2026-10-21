@@ -34,14 +34,14 @@ export function OrderDetailsPanel({ order, onClose }: OrderDetailsPanelProps) {
 
   return (
     <>
-      <div className="animate__animated animate__fadeIn relative flex min-w-0 flex-1 flex-col rounded-[4px] border border-line bg-white p-7 shadow-sm">
+      <div className="animate__animated animate__fadeIn relative flex min-w-0 flex-1 flex-col rounded-[4px] border border-line bg-white p-5 sm:p-7 shadow-sm">
         <Button
           variant="secondary"
           shape="circle"
           size="icon-md"
           onClick={onClose}
           aria-label={t.actions.close}
-          className="absolute top-0 right-0 z-10 -translate-y-1/2 translate-x-1/2 border-line text-ink-muted shadow-md hover:bg-white"
+          className="absolute top-0 right-0 z-10 -translate-y-1/2 translate-x-1/4 sm:translate-x-1/2 border-line text-ink-muted shadow-md hover:bg-white"
         >
           <X className="h-4 w-4" strokeWidth={2.5} />
         </Button>
@@ -64,7 +64,7 @@ export function OrderDetailsPanel({ order, onClose }: OrderDetailsPanelProps) {
           </Button>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto pr-1">
+        <div className="min-h-0 flex-1 overflow-x-auto overflow-y-auto pr-1">
           {products.length === 0 ? (
             <div className="py-12 text-center text-[13px] text-ink-muted">
               {t.orders.emptyProductsInOrder}

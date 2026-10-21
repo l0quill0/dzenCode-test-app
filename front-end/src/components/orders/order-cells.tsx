@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { type MouseEvent, useState } from 'react';
 import { List, Monitor, Trash2 } from 'lucide-react';
 import { Button } from '@/components/common/button';
 import { DeleteModal } from '@/components/common/delete-modal';
@@ -13,7 +13,7 @@ export function OrderListIconButton({
   onClick,
   ariaLabel = 'Order details',
 }: {
-  onClick?: () => void;
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   ariaLabel?: string;
 }) {
   return (

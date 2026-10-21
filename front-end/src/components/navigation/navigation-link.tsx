@@ -7,9 +7,15 @@ export interface NavigationLinkProps {
   href: string;
   label: string;
   isActive?: boolean;
+  onClick?: () => void;
 }
 
-export function NavigationLink({ href, label, isActive }: NavigationLinkProps) {
+export function NavigationLink({
+  href,
+  label,
+  isActive,
+  onClick,
+}: NavigationLinkProps) {
   const pathname = usePathname();
   const active =
     isActive ?? (pathname === href || (href === '/orders' && pathname === '/'));
@@ -17,6 +23,7 @@ export function NavigationLink({ href, label, isActive }: NavigationLinkProps) {
   return (
     <Link
       href={href}
+      onClick={onClick}
       className="group relative pb-[6px] text-center text-[13px] font-bold tracking-[0.04em] text-ink uppercase transition-colors hover:text-ink-strong"
     >
       <span>{label}</span>

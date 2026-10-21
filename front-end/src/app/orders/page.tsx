@@ -16,7 +16,7 @@ export default async function OrdersPage() {
           variant="primary"
           shape="circle"
           size="icon-md"
-          className="border-[3px] border-brand-strong/30 shadow-[0_2px_6px_color-mix(in_srgb,var(--color-brand)_45%,transparent)] transition-transform hover:scale-105"
+          className="border-[3px] border-brand-strong/30 transition-transform hover:scale-105"
           title={t.orders.newOrder}
         >
           <Plus className="h-4 w-4 stroke-[3]" />

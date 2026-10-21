@@ -30,7 +30,7 @@ export function ProductsFilters() {
   };
 
   return (
-    <div className="ml-4 flex flex-wrap items-center gap-7">
+    <div className="ml-0 sm:ml-4 flex flex-wrap items-center gap-4 sm:gap-7">
       <Select
         id="product-type-filter"
         label={t.products.typeFilter}

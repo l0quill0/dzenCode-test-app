@@ -8,6 +8,7 @@ import { useOrdersColumns } from '@/components/orders/orders-columns';
 import { OrdersCompactList } from '@/components/orders/orders-compact-list';
 import { useI18n } from '@/contexts/i18n-context';
 import { useOrdersQuery } from '@/hooks/use-orders';
+import type { Order } from '@/types';
 
 export function OrdersView() {
   const { t } = useI18n();
@@ -20,8 +21,12 @@ export function OrdersView() {
     [orders, selectedOrderId],
   );
 
+  const handleToggleOrder = (order: Order) => {
+    setSelectedOrderId((prev) => (prev === order.id ? null : order.id));
+  };
+
   const columns = useOrdersColumns({
-    onSelectOrder: (order) => setSelectedOrderId(order.id),
+    onSelectOrder: handleToggleOrder,
   });
 
   return (
@@ -40,12 +45,14 @@ export function OrdersView() {
           {t.orders.noOrders}
         </div>
       ) : selectedOrderId !== null && selectedOrder ? (
-        <div className="flex min-h-0 flex-1 gap-6 pt-4 pr-5 pb-2">
-          <OrdersCompactList
-            orders={orders}
-            selectedOrderId={selectedOrderId}
-            onSelectOrder={(order) => setSelectedOrderId(order.id)}
-          />
+        <div className="flex min-h-0 flex-1 flex-col md:flex-row gap-6 pt-4 pb-2 md:pr-5">
+          <div className="hidden md:flex shrink-0">
+            <OrdersCompactList
+              orders={orders}
+              selectedOrderId={selectedOrderId}
+              onSelectOrder={handleToggleOrder}
+            />
+          </div>
           <OrderDetailsPanel
             order={selectedOrder}
             onClose={() => setSelectedOrderId(null)}
