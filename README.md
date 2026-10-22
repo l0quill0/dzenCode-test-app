@@ -102,34 +102,6 @@ The project uses a **single root `.env` file** as the unified source of truth ac
 cp .env.example .env
 ```
 
-> **Note on Windows (PowerShell):** `Copy-Item .env.example .env`
-
-#### Environment Variables Reference (`.env`):
-```env
-# ==========================================
-# Database Configuration (PostgreSQL)
-# ==========================================
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DB=dzencode_db
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dzencode_db?schema=public
-
-# ==========================================
-# Backend Configuration (NestJS)
-# ==========================================
-JWT_SECRET=super-secret-jwt-key-change-me
-JWT_EXPIRES_IN=1d
-PORT=3000
-
-# ==========================================
-# Frontend Configuration (Next.js)
-# ==========================================
-NEXT_PUBLIC_API_URL=http://localhost:3000
-NEXT_PUBLIC_WS_URL=http://localhost:3000
-```
-
-> **Zero Fallbacks & Git Security**: All services and test runners read dynamically from this root `.env`. No secrets or endpoints are committed to Git or hardcoded as code fallbacks.
-
 ### 3. Database Setup & Seeding
 
 Ensure PostgreSQL is running locally on port `5432`, then run:
