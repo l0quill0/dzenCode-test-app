@@ -60,6 +60,10 @@ dzenCode-test-app/
 The fastest way to launch the entire application (PostgreSQL, Backend API, and Frontend) is using Docker Compose:
 
 ```bash
+# 1. Copy the root environment file
+cp .env.example .env
+
+# 2. Build and launch all containers
 docker compose up --build -d
 ```
 
@@ -92,22 +96,43 @@ npm install
 
 ### 2. Configure Environment
 
-Create `.env` in `back-end`:
-```env
-PORT=3000
-DATABASE_URL="postgresql://dzencode:dzencode_pass@localhost:5432/dzencode_db?schema=public"
-JWT_SECRET="super-secret-jwt-key"
-JWT_EXPIRES_IN="7d"
-CORS_ORIGIN="http://localhost:3001"
+The project uses a **single root `.env` file** as the unified source of truth across the entire monorepo (Docker Compose, NestJS, Next.js, Prisma, and Vitest):
+
+```bash
+cp .env.example .env
 ```
 
-Create `.env.local` in `front-end`:
+> **Note on Windows (PowerShell):** `Copy-Item .env.example .env`
+
+#### Environment Variables Reference (`.env`):
 ```env
-NEXT_PUBLIC_API_URL="http://localhost:3000"
-NEXT_PUBLIC_WS_URL="http://localhost:3000"
+# ==========================================
+# Database Configuration (PostgreSQL)
+# ==========================================
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=dzencode_db
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dzencode_db?schema=public
+
+# ==========================================
+# Backend Configuration (NestJS)
+# ==========================================
+JWT_SECRET=super-secret-jwt-key-change-me
+JWT_EXPIRES_IN=1d
+PORT=3000
+
+# ==========================================
+# Frontend Configuration (Next.js)
+# ==========================================
+NEXT_PUBLIC_API_URL=http://localhost:3000
+NEXT_PUBLIC_WS_URL=http://localhost:3000
 ```
+
+> **Zero Fallbacks & Git Security**: All services and test runners read dynamically from this root `.env`. No secrets or endpoints are committed to Git or hardcoded as code fallbacks.
 
 ### 3. Database Setup & Seeding
+
+Ensure PostgreSQL is running locally on port `5432`, then run:
 
 ```bash
 # Generate Prisma Client
@@ -123,10 +148,10 @@ npm run prisma:seed --workspace=back-end
 ### 4. Run Development Servers
 
 ```bash
-# Start backend (NestJS dev mode)
+# Start backend (NestJS dev mode on port 3000)
 npm run dev:back
 
-# In a separate terminal, start frontend (Next.js dev mode)
+# In a separate terminal, start frontend (Next.js dev mode on port 3001)
 npm run dev:front
 ```
 
@@ -134,24 +159,29 @@ npm run dev:front
 
 ## Running Tests
 
-All unit and integration tests across both frontend and backend can be executed with a single command from the root:
+All **38 unit and integration tests** across both frontend and backend execute with a single command from the root:
 
 ```bash
-# Run tests across all workspaces
+# Run all 38 tests across all workspaces
 npm test
 
-# Run frontend tests only
+# Run frontend tests only (24 tests)
 npm run test --workspace=front-end
 
-# Run backend tests only
+# Run backend tests only (14 tests)
 npm run test --workspace=back-end
 ```
 
 ### Test Coverage Highlights:
-- **Front-End**: Tests for date formatting, dual currency pricing aggregation (`getOrderTotalPrices`), Russian/English pluralization (`getProductsCountLabel`), common `Button` variants, `Select` dropdown, and `DeleteModal`.
-- **Back-End**: Unit tests for `OrdersService`, `ProductsService`, `UsersService`, `AuthService`, and `SessionsGateway`.
-
----
+- **Front-End (24 tests)**:
+  - `api.test.ts`: Verifies dynamic baseURL resolution from `NEXT_PUBLIC_API_URL` without fallbacks.
+  - `format.test.ts`: Dual-currency pricing calculations (`getOrderTotalPrices`), date parsing, and Russian/English pluralization (`getProductsCountLabel`).
+  - `button.test.tsx`: Polymorphic rendering, button variants, and disabled states.
+  - `select.test.tsx`: Dropdown option selection, keyboard navigation, and event emission.
+  - `delete-modal.test.tsx`: Confirmation modal lifecycle, item listing, cancel and delete callbacks.
+  - `service-worker-register.test.tsx`: PWA service worker lifecycle and online/offline event detection.
+- **Back-End (14 tests)**:
+  - Unit tests for `OrdersService`, `ProductsService`, `UsersService`, `AuthService`, and `SessionsGateway`.
 
 ## Implemented Specification Features
 
@@ -178,14 +208,6 @@ npm run test --workspace=back-end
 - **Web App Manifest**: Auto-generated via `manifest.ts` with standalone display, theme color (`#8bc34a`), and multi-resolution icons (`192x192`, `512x512`, `512x512` maskable, SVG, Apple Touch Icon).
 - **Service Worker (`sw.js`)**: Caches static assets, routes, and provides a customized offline fallback page (`offline.html`).
 - **Offline UX**: Live network detection with an animated offline banner when internet connection is lost.
-
-### 6. Responsive Adaptive Design
-- **Mobile Navigation Drawer**: Off-canvas sliding sidebar menu with overlay backdrop and hamburger toggle button on viewports `< 1024px`.
-- **Fluid TopMenu**: Adaptive search width, condensed time/session counters, and clean breakpoints.
-- **Adaptive Split View**: Master-detail view smoothly transitions between full-screen order details on mobile (`< 768px`) and side-by-side split view on tablet/desktop (`>= 768px`).
-- **Scrollable Data Tables**: Horizontal scroll wrapper for wide data tables on narrow mobile displays.
-
----
 
 ## Possible Improvements (Beyond Task Scope)
 

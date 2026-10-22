@@ -8,7 +8,7 @@ import { store } from '@/store';
 import { initializeAuth } from '@/store/slices/auth-slice';
 import { setActiveSessions, setConnected } from '@/store/slices/socket-slice';
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_WS_URL || 'http://localhost:3000';
+const SOCKET_URL = process.env.NEXT_PUBLIC_WS_URL;
 
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [queryClient] = useState(

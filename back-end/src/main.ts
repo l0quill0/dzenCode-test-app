@@ -1,4 +1,5 @@
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import {
   ExpressAdapter,
@@ -13,6 +14,7 @@ async function bootstrap() {
     AppModule,
     new ExpressAdapter(),
   );
+  const configService = app.get(ConfigService);
   app.useWebSocketAdapter(new IoAdapter(app));
   app.enableCors();
   app.useGlobalPipes(
@@ -22,6 +24,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalFilters(new PrismaClientExceptionFilter());
-  await app.listen(process.env.PORT ?? 3000);
+  const port = configService.getOrThrow<number>('PORT');
+  await app.listen(port);
 }
 await bootstrap();

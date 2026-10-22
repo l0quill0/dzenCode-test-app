@@ -1,8 +1,7 @@
 import axios from 'axios';
 import type { AuthResponse, Order, Product, User } from '@/types';
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const TOKEN_STORAGE_KEY = 'dzencode_jwt_token';
 

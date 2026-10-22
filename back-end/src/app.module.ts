@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import path from 'node:path';
 import { AuthModule } from './auth/auth.module.js';
 import { OrdersModule } from './orders/orders.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
@@ -11,6 +12,12 @@ import { UsersModule } from './users/users.module.js';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: [
+        path.resolve(process.cwd(), '../.env'),
+        path.resolve(process.cwd(), '.env'),
+        '../.env',
+        '.env',
+      ],
     }),
     PrismaModule,
     UsersModule,
